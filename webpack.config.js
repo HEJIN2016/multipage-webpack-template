@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const glob = require('glob');
-const postcss = require('./postcss.config');
+const config = require("./config");
 
 process.env.NODE_ENV = 'prod';
 
@@ -29,7 +29,6 @@ let htmlPlugins = [
   new ExtractTextPlugin({
     filename: ('css/[name].[hash:8].css')
     // allChunks: true,
-    // use: ['css-loader', 'postcss-loader', 'less-loader']
   })
 ];
 jsFiles.forEach((item, index)=>{
@@ -48,7 +47,7 @@ htmlFiles.forEach((item, index)=>{
     filename: item.match(/src\/pages\/(.+)/)[1],
     inject: true,
     chunks,
-    chunksSortMode: "dependency",
+    chunksSortMode: 'manual',
     minify: {
       minifyCSS: true,
       minifyJS: true,
@@ -90,25 +89,14 @@ module.exports = {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: (loader) => [
-                require('postcss-import')({ }),
-                require('postcss-url')({}),
-                // require('postcss-preset-env')(),
-                require('cssnano')(),
-                require('autoprefixer')()
-              ]
-            }}, 'less-loader']
+          use: ['css-loader', config.prodPostCssLoader, 'less-loader']
         })
       },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', "postcss-loader"]
+          use: ['css-loader', config.prodPostCssLoader]
         })
       }
     ]
