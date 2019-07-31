@@ -2,7 +2,18 @@ module.exports = {
   dev: {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {}
+    devServer: {
+      // contentBase: path.join(__dirname, "src"),
+      clientLogLevel: 'warning',
+      hot: true,
+      compress: true,
+      host: "0.0.0.0",
+      port: 3200,
+      open: false,
+      inline: true,
+      proxy: {}
+      // publicPath: config.dev.assetsPublicPath
+    }
   },
   build: {
     assetsSubDirectory: 'static',

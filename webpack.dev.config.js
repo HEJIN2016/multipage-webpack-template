@@ -21,19 +21,19 @@ function getJsChunk (globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -3).replace('/', '_');
 }
 
-function getIPAdress() {
-  let interfaces = os.networkInterfaces();
-  for (let devName in interfaces) {
-    let iface = interfaces[devName];
-    for (let i = 0; i < iface.length; i++) {
-      let alias = iface[i];
-      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-        return alias.address;
-      }
-    }
-  }
-}
-const myHost = getIPAdress();
+// function getIPAdress() {
+//   let interfaces = os.networkInterfaces();
+//   for (let devName in interfaces) {
+//     let iface = interfaces[devName];
+//     for (let i = 0; i < iface.length; i++) {
+//       let alias = iface[i];
+//       if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+//         return alias.address;
+//       }
+//     }
+//   }
+// }
+// const myHost = getIPAdress();
 
 
 let entry = {
@@ -141,18 +141,7 @@ let devWebpackConfig = {
       }
     ].concat(config.commonRules)
   },
-  devServer: {
-    // contentBase: path.join(__dirname, "src"),
-    clientLogLevel: 'warning',
-    hot: true,
-    compress: true,
-    host: myHost,
-    port: PORT,
-    open: false,
-    inline: true,
-    proxy: config.dev.proxyTable
-    // publicPath: config.dev.assetsPublicPath
-  }
+  devServer: config.dev.devServer
 };
 
 module.exports = new Promise((resolve, reject) => {
