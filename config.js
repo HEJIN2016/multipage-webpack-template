@@ -1,4 +1,12 @@
 module.exports = {
+  dev: {
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+  },
+  build: {
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+  },
   devPostCssLoader: {
     loader: 'postcss-loader',
     options: {

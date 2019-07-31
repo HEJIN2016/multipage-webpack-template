@@ -6,6 +6,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const glob = require('glob');
 const config = require("./config");
+const copyWebpackPlugin = require("copy-webpack-plugin");
 
 process.env.NODE_ENV = 'prod';
 
@@ -29,7 +30,15 @@ let htmlPlugins = [
   new ExtractTextPlugin({
     filename: ('css/[name].[hash:8].css')
     // allChunks: true,
-  })
+  }),
+  // copy custom static assets
+  new copyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, 'static'),
+      to: config.build.assetsSubDirectory,
+      ignore: ['.*']
+    }
+  ])
 ];
 jsFiles.forEach((item, index)=>{
   entry[getJsChunk(item)] = path.resolve(__dirname, item);

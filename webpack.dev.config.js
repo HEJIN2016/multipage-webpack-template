@@ -9,6 +9,7 @@ const glob = require('glob');
 const webpack = require("webpack");
 const config = require("./config");
 const os = require('os');
+const copyWebpackPlugin = require("copy-webpack-plugin");
 
 process.env.NODE_ENV = 'dev';
 
@@ -48,6 +49,14 @@ let htmlPlugins = [
     allChunks: false,
     // use: ['css-loader', 'postcss-loader', 'less-loader']
   }),
+  // copy custom static assets
+  new copyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, 'static'),
+      to: config.dev.assetsSubDirectory,
+      ignore: ['.*']
+    }
+  ])
   // new webpack.optimize.CommonsChunkPlugin({
   //   name: 'vendor',
   //   filename: 'common.js',
