@@ -47,6 +47,7 @@ let htmlPlugins = [
   new ExtractTextPlugin({
     filename: 'css/[name].css',
     allChunks: false,
+    publicPath: "../"
     // use: ['css-loader', 'postcss-loader', 'less-loader']
   }),
   // copy custom static assets
@@ -79,6 +80,7 @@ htmlFiles.forEach((item, index)=>{
   htmlPlugins.push(new htmlWebpackPlugin({
     template: item,
     filename: item.match(/src\/pages\/(.+)/)[1],
+    favicon:'./src/assets/favicon.ico',
     inject: true,
     chunks,
     chunksSortMode: 'manual',
@@ -112,7 +114,8 @@ let devWebpackConfig = {
   entry,
   output: {
     path: path.join(__dirname, 'src'),
-    filename: 'js/[name].js'
+    filename: 'js/[name].js',
+    publicPath: config.dev.assetsPublicPath
   },
   devtool: "#cheap-module-eval-source-map",
   plugins: htmlPlugins,
@@ -136,7 +139,7 @@ let devWebpackConfig = {
           use: ['css-loader', config.devPostCssLoader]
         })
       }
-    ]
+    ].concat(config.commonRules)
   },
   devServer: {
     // contentBase: path.join(__dirname, "src"),
@@ -147,6 +150,8 @@ let devWebpackConfig = {
     port: PORT,
     open: false,
     inline: true,
+    proxy: config.dev.proxyTable
+    // publicPath: config.dev.assetsPublicPath
   }
 };
 

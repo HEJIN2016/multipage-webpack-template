@@ -54,6 +54,7 @@ htmlFiles.forEach((item, index)=>{
   htmlPlugins.push(new htmlWebpackPlugin({
     template: item,
     filename: item.match(/src\/pages\/(.+)/)[1],
+    favicon:'./src/assets/favicon.ico',
     inject: true,
     chunks,
     chunksSortMode: 'manual',
@@ -84,9 +85,15 @@ module.exports = {
   entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].[hash:8].js'
-    // globalObject: 'this' // 兼容node和浏览器运行，避免window is not undefined情况
+    filename: ('js/[name].[chunkhash].js'),
+    chunkFilename: ('js/[id].[chunkhash].js'),
+    publicPath: config.build.assetsPublicPath
   },
+  // output: {
+  //   path: path.resolve(__dirname, 'dist'),
+  //   filename: 'js/[name].[hash:8].js',
+  //   publicPath: config.build.assetsPublicPath
+  // },
   devtool: "#source-map",
   module: {
     rules: [
@@ -108,7 +115,7 @@ module.exports = {
           use: ['css-loader', config.prodPostCssLoader]
         })
       }
-    ]
+    ].concat(config.commonRules)
   },
   plugins: htmlPlugins
 };
