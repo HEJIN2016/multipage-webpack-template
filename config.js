@@ -1,3 +1,6 @@
+const cssSourceMap = true; // 是否开启css sourceMap
+const jsSourceMap = true; // 是否开启js sourceMap
+
 module.exports = {
   dev: {
     assetsSubDirectory: 'static',
@@ -11,13 +14,16 @@ module.exports = {
       port: 3200,
       open: false,
       inline: true,
-      proxy: {}
+      proxy: {} // 反向代理table
       // publicPath: config.dev.assetsPublicPath
     }
   },
   build: {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    polyfill: true, // 是否开启babel-polyfill转换
+    jsSourceMap,
+    cssSourceMap
   },
 
   commonRules: [
@@ -51,6 +57,7 @@ module.exports = {
     loader: 'postcss-loader',
     options: {
       ident: 'postcss',
+      sourceMap: true,
       plugins: (loader) => [
         require('postcss-import')({}),
         require('postcss-url')({}),
@@ -63,6 +70,7 @@ module.exports = {
   prodPostCssLoader: {
     loader: 'postcss-loader',
     options: {
+      sourceMap: cssSourceMap,
       ident: 'postcss',
       plugins: (loader) => [
         require('postcss-import')({}),

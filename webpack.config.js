@@ -7,6 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const glob = require('glob');
 const config = require("./config");
 const copyWebpackPlugin = require("copy-webpack-plugin");
+const babelPolyfill = require('babel-polyfill');
 
 process.env.NODE_ENV = 'prod';
 
@@ -19,6 +20,7 @@ function getJsChunk (globSrc) {
 }
 
 let entry = {
+  polyfill: ['babel-polyfill'],
   vendor: path.join(__dirname, 'src', 'common.js')
 };
 
@@ -28,7 +30,7 @@ let jsFiles = glob.sync("src/pages/**/*.js") || [];
 let htmlPlugins = [
   new CleanWebpackPlugin(['dist']),
   new ExtractTextPlugin({
-    filename: ('css/[name].[hash:8].css')
+    filename: ('css/[name].[chunkhash].css')
     // allChunks: true,
   }),
   // copy custom static assets
@@ -47,9 +49,18 @@ jsFiles.forEach((item, index)=>{
 htmlFiles.forEach((item, index)=>{
   let chunks = [];
   if (entry[getHtmlChunk(item)]) {
-    chunks = ["vendor", getHtmlChunk(item)];
+    if (config.build.polyfill) {
+      chunks = ["polyfill", "vendor", getHtmlChunk(item)];
+    } else {
+      chunks = ["vendor", getHtmlChunk(item)];
+    }
+
   } else {
-    chunks = ["vendor"];
+    if (config.build.polyfill) {
+      chunks = ["polyfill", "vendor"];
+    } else {
+      chunks = ["vendor"];
+    }
   }
   htmlPlugins.push(new htmlWebpackPlugin({
     template: item,
@@ -75,7 +86,7 @@ htmlPlugins.push(
         warnings: false
       }
     },
-    sourceMap: true,
+    sourceMap: config.build.jsSourceMap,
     parallel: true
   })
 );
@@ -89,11 +100,6 @@ module.exports = {
     chunkFilename: ('js/[id].[chunkhash].js'),
     publicPath: config.build.assetsPublicPath
   },
-  // output: {
-  //   path: path.resolve(__dirname, 'dist'),
-  //   filename: 'js/[name].[hash:8].js',
-  //   publicPath: config.build.assetsPublicPath
-  // },
   devtool: "#source-map",
   module: {
     rules: [
@@ -105,14 +111,29 @@ module.exports = {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', config.prodPostCssLoader, 'less-loader']
+          use: [{
+            loader: 'css-loader',
+            options: {
+              sourceMap: config.build.cssSourceMap
+            }
+          }, config.prodPostCssLoader, {
+            loader: 'less-loader',
+            options: {
+              sourceMap: config.build.cssSourceMap
+            }
+          }]
         })
       },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', config.prodPostCssLoader]
+          use: [{
+            loader: 'css-loader',
+            options: {
+              sourceMap: config.build.cssSourceMap
+            }
+          }, config.prodPostCssLoader]
         })
       }
     ].concat(config.commonRules)
