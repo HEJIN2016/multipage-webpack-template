@@ -1,5 +1,7 @@
 # multi-page-template
 
+> webpack多页应用开发基础模板框架
+
 ## 技术栈
 
 webpack + Es6 + less + Babel
