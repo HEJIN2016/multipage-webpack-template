@@ -26,20 +26,18 @@ function resolve (dir) {
   return path.join(__dirname, '', dir)
 }
 
-// function getIPAdress() {
-//   let interfaces = os.networkInterfaces();
-//   for (let devName in interfaces) {
-//     let iface = interfaces[devName];
-//     for (let i = 0; i < iface.length; i++) {
-//       let alias = iface[i];
-//       if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-//         return alias.address;
-//       }
-//     }
-//   }
-// }
-// const myHost = getIPAdress();
-
+function getIPAdress() {
+  let interfaces = os.networkInterfaces();
+  for (let devName in interfaces) {
+    let iface = interfaces[devName];
+    for (let i = 0; i < iface.length; i++) {
+      let alias = iface[i];
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address;
+      }
+    }
+  }
+}
 
 let entry = {
 
@@ -157,9 +155,16 @@ module.exports = new Promise((resolve, reject) => {
     else {
       devWebpackConfig.devServer.port = port;
 
+      let messages;
+      let host = devWebpackConfig.devServer.host;
+      if (host === "0.0.0.0") {
+        messages = [`Your application is running here: http://${getIPAdress()}:${port} or http://localhost:${port}`]
+      } else {
+        messages = [`Your application is running here: http://${host}:${port}`]
+      }
       devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
+          messages,
         }
       }));
       resolve(devWebpackConfig);
