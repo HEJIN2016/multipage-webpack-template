@@ -9,11 +9,13 @@ module.exports = {
       // contentBase: path.join(__dirname, "src"),
       clientLogLevel: 'warning',
       hot: true,
-      compress: true,
+      compress: true, // 开启gzip压缩
       host: "0.0.0.0",
       port: 3200,
       open: false,
+      overlay: true, // 浏览器全屏覆盖错误
       inline: true,
+      quiet: true, // 关闭webpack输出日志
       proxy: {} // 反向代理table
       // publicPath: config.dev.assetsPublicPath
     }

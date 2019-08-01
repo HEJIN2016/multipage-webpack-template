@@ -10,6 +10,7 @@ const webpack = require("webpack");
 const config = require("./config");
 const os = require('os');
 const copyWebpackPlugin = require("copy-webpack-plugin");
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 process.env.NODE_ENV = 'dev';
 
@@ -155,6 +156,12 @@ module.exports = new Promise((resolve, reject) => {
     if (err) reject(err);
     else {
       devWebpackConfig.devServer.port = port;
+
+      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+        compilationSuccessInfo: {
+          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
+        }
+      }));
       resolve(devWebpackConfig);
     }
   })
