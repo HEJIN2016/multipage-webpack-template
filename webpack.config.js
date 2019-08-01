@@ -19,6 +19,10 @@ function getJsChunk (globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -3).replace('/', '_');
 }
 
+function resolve (dir) {
+  return path.join(__dirname, '', dir)
+}
+
 let entry = {
   polyfill: ['babel-polyfill'],
   vendor: path.join(__dirname, 'src', 'common.js')
@@ -105,7 +109,8 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.less$/,

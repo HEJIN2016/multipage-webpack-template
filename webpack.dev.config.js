@@ -21,6 +21,10 @@ function getJsChunk (globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -3).replace('/', '_');
 }
 
+function resolve (dir) {
+  return path.join(__dirname, '', dir)
+}
+
 // function getIPAdress() {
 //   let interfaces = os.networkInterfaces();
 //   for (let devName in interfaces) {
@@ -123,7 +127,8 @@ let devWebpackConfig = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.less$/,
