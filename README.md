@@ -31,8 +31,9 @@ http://localhost:3200
 │   ├── assets                         资源目录 assets 用于组织未编译的静态资源如 LESS、SASS 或 JavaScript
 │   ├── pages                          多页面html目录，每个html可有对应的同前缀名js
 │   ├── style                          存放样式文件
-│   ├── common.js                      公共js文件，每个页面都会调用此js
-├── static                              静态文件目录,此类文件不会被Webpack 进行构建编译处理。服务器启动的时候，该目录下的文件会映射至应用的根路径 / 下
+│   ├── common.js                      公共js文件，每个页面都会调用此js    
+├── static                              静态文件目录,此类文件不会被Webpack 进行构建编译处理
+                                          服务器启动的时候，该目录下的文件会映射至应用的根路径 /static 下
 │   ├── ....
 ├── .babellrc                          babel配置文件
 ├── node_modules                        Node依赖
