@@ -121,7 +121,7 @@ module.exports = {
             options: {
               sourceMap: config.build.cssSourceMap
             }
-          }, config.prodPostCssLoader, {
+          }, config.build.postCssLoader, {
             loader: 'less-loader',
             options: {
               sourceMap: config.build.cssSourceMap
@@ -138,7 +138,7 @@ module.exports = {
             options: {
               sourceMap: config.build.cssSourceMap
             }
-          }, config.prodPostCssLoader]
+          }, config.build.postCssLoader]
         })
       }
     ].concat(config.commonRules)

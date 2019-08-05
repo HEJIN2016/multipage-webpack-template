@@ -133,14 +133,14 @@ let devWebpackConfig = {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', config.devPostCssLoader, 'less-loader']
+          use: ['css-loader', config.dev.postCssLoader, 'less-loader']
         })
       },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', config.devPostCssLoader]
+          use: ['css-loader', config.dev.postCssLoader]
         })
       }
     ].concat(config.commonRules)

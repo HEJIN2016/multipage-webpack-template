@@ -18,6 +18,20 @@ module.exports = {
       quiet: true, // 关闭webpack输出日志
       proxy: {} // 反向代理table
       // publicPath: config.dev.assetsPublicPath
+    },
+    postCssLoader: {
+      loader: 'postcss-loader',
+      options: {
+        ident: 'postcss',
+        sourceMap: true,
+        plugins: (loader) => [
+          require('postcss-import')({}),
+          require('postcss-url')({}),
+          // require('postcss-preset-env')(),
+          // require('cssnano')(),
+          require('autoprefixer')()
+        ]
+      },
     }
   },
   build: {
@@ -25,7 +39,21 @@ module.exports = {
     assetsPublicPath: '/',
     polyfill: true, // 是否开启babel-polyfill转换
     jsSourceMap,
-    cssSourceMap
+    cssSourceMap,
+    postCssLoader: {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: cssSourceMap,
+        ident: 'postcss',
+        plugins: (loader) => [
+          require('postcss-import')({}),
+          require('postcss-url')({}),
+          // require('postcss-preset-env')(),
+          require('cssnano')(),
+          require('autoprefixer')()
+        ]
+      },
+    }
   },
 
   commonRules: [
@@ -53,34 +81,5 @@ module.exports = {
         name: 'fonts/[name].[hash:7].[ext]'
       }
     }
-  ],
-
-  devPostCssLoader: {
-    loader: 'postcss-loader',
-    options: {
-      ident: 'postcss',
-      sourceMap: true,
-      plugins: (loader) => [
-        require('postcss-import')({}),
-        require('postcss-url')({}),
-        // require('postcss-preset-env')(),
-        // require('cssnano')(),
-        require('autoprefixer')()
-      ]
-    },
-  },
-  prodPostCssLoader: {
-    loader: 'postcss-loader',
-    options: {
-      sourceMap: cssSourceMap,
-      ident: 'postcss',
-      plugins: (loader) => [
-        require('postcss-import')({}),
-        require('postcss-url')({}),
-        // require('postcss-preset-env')(),
-        require('cssnano')(),
-        require('autoprefixer')()
-      ]
-    },
-  }
+  ]
 };
