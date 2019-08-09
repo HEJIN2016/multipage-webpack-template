@@ -9,6 +9,7 @@ let a = new Promise((resolve, reject) => {
 });
 
 a.then((res)=>{
-  alert(res);
   console.log('babel-polyfill success');
 });
+
+

@@ -121,6 +121,12 @@ let devWebpackConfig = {
     publicPath: config.dev.assetsPublicPath
   },
   devtool: "#cheap-module-eval-source-map",
+  resolve: {
+    extensions: ['.js'],
+    alias: {
+      '@': path.join(__dirname, '', 'src'),
+    }
+  },
   plugins: htmlPlugins,
   module: {
     rules: [

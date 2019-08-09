@@ -5,3 +5,6 @@ axios({
 }).then((res)=>{
   console.log(res);
 });
+
+import img from '@/assets/img/bgiphone.png'
+console.log(img)

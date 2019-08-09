@@ -15,7 +15,7 @@ module.exports = {
       open: false,
       overlay: true, // 浏览器全屏覆盖错误
       inline: true,
-      quiet: true, // 关闭webpack输出日志
+      // quiet: true, // 关闭webpack输出日志
       proxy: {} // 反向代理table
       // publicPath: config.dev.assetsPublicPath
     },

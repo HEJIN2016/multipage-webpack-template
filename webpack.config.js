@@ -105,6 +105,12 @@ module.exports = {
     publicPath: config.build.assetsPublicPath
   },
   devtool: "#source-map",
+  resolve: {
+    extensions: ['.js'],
+    alias: {
+      '@': path.join(__dirname, '', 'src'),
+    }
+  },
   module: {
     rules: [
       {
