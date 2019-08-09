@@ -12,8 +12,6 @@ const os = require('os');
 const copyWebpackPlugin = require("copy-webpack-plugin");
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
-process.env.NODE_ENV = 'dev';
-
 function getHtmlChunk(globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -5).replace('/', '_');
 }
@@ -47,6 +45,11 @@ let htmlFiles = glob.sync("src/pages/**/*.html") || [];
 let jsFiles = glob.sync("src/pages/**/*.js") || [];
 
 let htmlPlugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: '"development"'
+    }
+  }),
   new ExtractTextPlugin({
     filename: 'css/[name].css',
     allChunks: false,
@@ -114,6 +117,9 @@ let pocssLoader = {
 };
 
 let devWebpackConfig = {
+  watchOptions: {
+    ignored: /node_modules/ // 不监听node_modules下的文件
+  },
   entry,
   output: {
     path: path.join(__dirname, 'src'),

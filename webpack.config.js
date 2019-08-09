@@ -9,8 +9,6 @@ const config = require("./config");
 const copyWebpackPlugin = require("copy-webpack-plugin");
 const babelPolyfill = require('babel-polyfill');
 
-process.env.NODE_ENV = 'prod';
-
 function getHtmlChunk(globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -5).replace('/', '_');
 }
@@ -32,6 +30,11 @@ let htmlFiles = glob.sync("src/pages/**/*.html") || [];
 let jsFiles = glob.sync("src/pages/**/*.js") || [];
 
 let htmlPlugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: '"production"'
+    }
+  }),
   new CleanWebpackPlugin(['dist']),
   new ExtractTextPlugin({
     filename: ('css/[name].[chunkhash].css')
