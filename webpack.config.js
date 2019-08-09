@@ -87,7 +87,12 @@ htmlPlugins.push(
   new UglifyJsPlugin({
     uglifyOptions: {
       compress: {
-        warnings: false
+        warnings: false,
+        // drop_console: true // 删除console语句
+      },
+      output: {
+        // comments: false,
+        beautify: false
       }
     },
     sourceMap: config.build.jsSourceMap,
