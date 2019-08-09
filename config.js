@@ -58,6 +58,15 @@ module.exports = {
 
   commonRules: [
     {
+      test: /\.(html)$/,
+      use: {
+        loader: 'html-loader',
+        options: {
+          attrs: ['img:src']
+        }
+      }
+    },
+    {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
       loader: 'url-loader',
       options: {
