@@ -33,6 +33,12 @@ let htmlFiles = glob.sync("src/pages/**/*.html") || [];
 let jsFiles = glob.sync("src/pages/**/*.js") || [];
 
 let htmlPlugins = [
+  new webpack.ProvidePlugin({
+    $: "jquery",
+    jquery: "jquery",
+    jQuery: "jquery",
+    axios: "axios"
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: '"production"'

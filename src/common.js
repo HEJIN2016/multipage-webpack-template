@@ -1,6 +1,7 @@
-import $ from 'jquery'
-
-window.$ = window.jQuery = $;
+// import $ from 'jquery'
+//
+// window.$ = window.jQuery = $;
+console.log($("body"));
 // 测试注释
 let a = new Promise((resolve, reject) => {
   setTimeout(()=>{

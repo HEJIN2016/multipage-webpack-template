@@ -4,7 +4,7 @@
   "description": "multi-page-template",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --config webpack.dev.config.js",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --hot",
     "start": "npm run dev"
   },
   "repository": {
