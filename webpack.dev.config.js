@@ -24,7 +24,7 @@ function resolve (dir) {
   return path.join(__dirname, '', dir)
 }
 
-function getIPAdress() {
+function getIPAddress() {
   let interfaces = os.networkInterfaces();
   for (let devName in interfaces) {
     let iface = interfaces[devName];
@@ -173,7 +173,7 @@ module.exports = new Promise((resolve, reject) => {
       let messages;
       let host = devWebpackConfig.devServer.host;
       if (host === "0.0.0.0") {
-        messages = [`Your application is running here: http://${getIPAdress()}:${port} or http://localhost:${port}`]
+        messages = [`Your application is running here: http://${getIPAddress()}:${port} or http://localhost:${port}`]
       } else {
         messages = [`Your application is running here: http://${host}:${port}`]
       }

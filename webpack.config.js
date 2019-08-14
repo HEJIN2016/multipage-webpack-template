@@ -9,10 +9,12 @@ const config = require("./config");
 const copyWebpackPlugin = require("copy-webpack-plugin");
 const babelPolyfill = require('babel-polyfill');
 
+// 根据html文件名生成chunk名
 function getHtmlChunk(globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -5).replace('/', '_');
 }
 
+// 根据js文件名生成chunk名
 function getJsChunk (globSrc) {
   return globSrc.match(/src\/pages\/(.+)/)[1].slice(0, -3).replace('/', '_');
 }
@@ -21,6 +23,7 @@ function resolve (dir) {
   return path.join(__dirname, '', dir)
 }
 
+// polyfill和common.js对应的entry
 let entry = {
   polyfill: ['babel-polyfill'],
   vendor: path.join(__dirname, 'src', 'common.js')

@@ -4,8 +4,8 @@
   "description": "multi-page-template",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --config webpack.dev.config.js --hot --inline",
-    "serve": "cd dist && hs"
+    "dev": "webpack-dev-server --config webpack.dev.config.js",
+    "start": "npm run dev"
   },
   "repository": {
     "type": "git",
